@@ -68,14 +68,16 @@ void runRobot(int R, int C) {
     Sleep(1000);
 
     while (!(r == endR && c == endC)) {
-        if (steps > R*C) {
+        if (steps > R * C * 4) {
             printf("Your maze has no ending\n");
             return;
         }
 
-        right = (d + 1) % 4;
-        left  = (d + 3) % 4;
-        back  = (d + 2) % 4;
+
+        if (d == 0)      { right = 1; left = 3; back = 2; }
+        else if (d == 1) { right = 2; left = 0; back = 3; }
+        else if (d == 2) { right = 3; left = 1; back = 0; }
+        else             { right = 0; left = 2; back = 1; }
 
         if (isOpen(R, C, maze, r + dr[right], c + dc[right]))      d = right;
         else if (isOpen(R, C, maze, r + dr[d], c + dc[d]))         d = d;
