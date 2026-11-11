@@ -19,6 +19,10 @@ void inputMaze(int R, int C, char maze[R][C + 1]) {
     for (i = 1; i < R - 1; i++) {
         for (j = 1; j < C - 1; j++) {
             scanf(" %c", &maze[i][j]);
+            if(maze[i][j]!= 'S' && maze[i][j]!= 'E' && maze[i][j]!='#' && maze[i][j]!='.'){
+               maze[i][j] = '.';
+            	
+			}
         }
     }
 }
@@ -39,6 +43,8 @@ void displayMaze(int R, int C, char maze[R][C + 1]) {
 void runRobot(int R, int C) {
     char maze[R][C + 1];
     int i, j;
+    int totals = 0;
+    int totale=0;
     int startR = -1, startC = -1, endR = -1, endC = -1;
     int r, c, d, steps;
     int right, left, back;
@@ -47,8 +53,15 @@ void runRobot(int R, int C) {
 
     for (i = 0; i < R; i++) {
         for (j = 0; j < C; j++) {
-            if (maze[i][j] == 'S') { startR = i; startC = j; }
-            if (maze[i][j] == 'E') { endR = i; endC = j; }
+            if (maze[i][j] == 'S') {
+			 startR = i;
+			 startC = j; 
+			 totals++;
+			 }
+            if (maze[i][j] == 'E') { 
+			 endR = i;
+			 endC = j;
+			 totale++; }
         }
     }
 
@@ -56,6 +69,10 @@ void runRobot(int R, int C) {
         printf("Your maze is invalid\n");
         return;
     }
+    if(totals!=1 ||totale!=1){
+    	printf("There are more than 1 starting or ending point\n");
+    	return;
+	}
 
     r = startR;
     c = startC;
@@ -68,7 +85,7 @@ void runRobot(int R, int C) {
     Sleep(1000);
 
     while (!(r == endR && c == endC)) {
-        if (steps > R * C * 4) {
+        if (steps > (R-1)* (C-1) ) {
             printf("Your maze has no ending\n");
             return;
         }
@@ -100,6 +117,8 @@ void runRobot(int R, int C) {
 }
 
 int main() {
+	int choice = 0;
+    do{
     int rows, cols;
 
     printf("Rows: ");
@@ -108,5 +127,10 @@ int main() {
     scanf("%d", &cols);
 
     runRobot(rows + 2, cols + 2);
+    printf("Do you want to test code again yes==1 , no ==0 \n");
+    fflush(stdin);
+	scanf("%d",&choice);
+	printf("\n");
+	} while(choice==1);
     return 0;
 }
